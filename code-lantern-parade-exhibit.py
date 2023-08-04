@@ -11,6 +11,7 @@ from adafruit_led_animation.animation.comet import Comet
 from adafruit_led_animation.animation.chase import Chase
 from adafruit_led_animation.animation.rainbow import Rainbow
 from adafruit_led_animation.animation.rainbowchase import RainbowChase
+from adafruit_led_animation.animation.rainbowsparkle import RainbowSparkle
 from adafruit_led_animation.animation.sparkle import Sparkle
 from adafruit_led_animation.animation.pulse import Pulse
 from adafruit_led_animation.animation.sparklepulse import SparklePulse
@@ -39,25 +40,38 @@ ports = {
 # ** Change this value to connnect the DIN wire to a different pin on the Pico
 pixel_pin = ports[1]
 
-# ** Change this number to be the number of LEDs on your strips
-num_pixels = 4
+
 
 strips = {}
-# This line initializes the library used to control the neopixel strip
-for port_num in sorted(ports.keys()):
+
+# Initialize the library used to control the neopixel strip
+def init_strip(port_num, num_pixels):
     strips[port_num] = neopixel.NeoPixel(ports[port_num], num_pixels, brightness=1, auto_write=False)
     strips[port_num].fill(BLACK)
     strips[port_num].show()
 
+# Initialize bag lights
+for port_num in range(1,9):
+    init_strip(port_num, 4)
+
+init_strip(10, 10)
+init_strip(11, 10)
+
 animations = []
-for key in sorted(strips.keys()):
+#for key in sorted(strips.keys()):
+for key in range(1,9):
     #animations.append(Blink(strips[key], speed=0.25, color=BLUE))
     #animations.append(Comet(strips[key], speed=0.1, color=RED, tail_length=2, bounce= True))
     #animations.append(Sparkle(strips[key], speed=.5, color=YELLOW, num_sparkles=1))
     #animations.append(Pulse(strips[key], speed=.1, color=YELLOW, period=5))
     #animations.append(SparklePulse(strips[key], speed=.1, color=GREEN, period=5))
-    #animations.append(ColorCycle(strips[key], speed=.25, colors=(RED, GREEN, BLUE, YELLOW, PURPLE)))
+    #animations.append(ColorCycle(strips[key], speed=.1, colors=(RED, GREEN, BLUE, YELLOW, PURPLE)))
     animations.append(Solid(strips[key], color=BLACK))
+
+# This is similar to what the EA Makerspace sign does
+#animations.append(RainbowChase(strips[10], speed=.05, size=1, spacing=0))
+animations.append(RainbowSparkle(strips[10], period=60, speed=.25))
+animations.append(RainbowSparkle(strips[11], period=60, speed=.25))
 
 ##############################################################################
 # This is the main body of your code
