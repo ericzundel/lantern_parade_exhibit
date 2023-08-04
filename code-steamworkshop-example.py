@@ -8,14 +8,34 @@ import board
 from rainbowio import colorwheel
 import neopixel
 
+ports = {
+    1: board.GP17,
+    2: board.GP19,
+    3: board.GP21,
+    4: board.GP22,
+    5: board.GP26,
+    6: board.GP28,
+    7: board.GP15,
+    8: board.GP13,
+    9: board.GP16,
+    10: board.GP18,
+    11: board.GP20,
+    12: board.GP27,
+    13: board.GP14
+}
+
 # ** Change this value to connnect the DIN wire to a different pin on the Pico
-pixel_pin = board.GP2
+pixel_pin = ports[1]
 
 # ** Change this number to be the number of LEDs on your strips
 num_pixels = 10
 
-# This line initialized the library used to control the neopixel strip
-pixels = neopixel.NeoPixel(pixel_pin, num_pixels, brightness=0.3, auto_write=False)
+strips = {}
+# This line initializes the library used to control the neopixel strip
+for port_num in sorted(ports.keys()):
+    strips[port_num] = neopixel.NeoPixel(ports[port_num], num_pixels, brightness=1, auto_write=False)
+
+pixels = strips[4]
 
 # Different colors are made by mixing different amounts of
 # Red, Green and Blue light.  The color wheel for light
@@ -155,15 +175,17 @@ while True:
     pixels[0] = RED
     pixels[1] = BLUE
     pixels[2] = GREEN
-    pixels[3] = BLACK
-    pixels[4] = WHITE
+    pixels[6] = RED
+    pixels[7] = RED
+    pixels[8] = RED
+    pixels[9] = RED
 
     # pixels.show() must be called for any changes with SET() to take effect.
     pixels.show()
 
     # time.sleep() pauses the program for the specified number of seconds.
     # You can use a decimal to pause for less than a second, e.g. time.sleep(.5)
-    time.sleep(4)
+    time.sleep(2)
 
     # pixels.fill() sets every LED to the same color
     print ("Turning off all LEDs on the strip");
@@ -171,10 +193,10 @@ while True:
     pixels.show()
     time.sleep(2)
 
-    print("Seting the strip to a solid color")
-    pixels.fill(RED)
-    pixels.show()
-    time.sleep(2)
+    #print("Seting the strip to a solid color")
+    #pixels.fill(RED)
+    #pixels.show()
+    #time.sleep(2)
 
     print("color_chase(BLUE): moves red across the strip")
     color_chase(BLUE, 0.1)  # Increase the number to slow down the color chase
