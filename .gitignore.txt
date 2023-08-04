@@ -1,3 +1,7 @@
+# CircuitPython
+boot_out.txt
+System\ Volume\ Information/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
