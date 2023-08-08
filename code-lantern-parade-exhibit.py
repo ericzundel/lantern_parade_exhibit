@@ -70,8 +70,8 @@ for key in range(1,9):
 
 # This is similar to what the EA Makerspace sign does
 #animations.append(RainbowChase(strips[10], speed=.05, size=1, spacing=0))
-animations.append(RainbowSparkle(strips[10], period=60, speed=.25))
-animations.append(RainbowSparkle(strips[11], period=60, speed=.25))
+animations.append(RainbowSparkle(strips[10], period=60, speed=1))
+animations.append(RainbowSparkle(strips[11], period=60, speed=1))
 
 ##############################################################################
 # This is the main body of your code
