@@ -22,17 +22,17 @@ from adafruit_led_animation.color import RED, BLUE, GREEN, YELLOW, BLACK, PURPLE
 import neopixel
 
 ports = {
-    1: board.GP17,
-    2: board.GP19,
-    3: board.GP21,
-    4: board.GP22,
-    5: board.GP26,
-    6: board.GP28,
-    7: board.GP15,
-    8: board.GP13,
-    9: board.GP16,
-    10: board.GP18,
-    11: board.GP20,
+    1: board.GP17,   # Lantern with 4 LEDs
+    2: board.GP19,   # Lantern with 4 LEDs
+    3: board.GP21,   # Lantern with 4 LEDs
+    4: board.GP22,   # Lantern with 4 LEDs
+    5: board.GP26,   # Lantern with 4 LEDs
+    6: board.GP28,   # Lantern with 4 LEDs
+    7: board.GP15,   # Lantern with 4 LEDs
+    8: board.GP13,   # Lantern with 4 LEDs
+    9: board.GP16,   # Lantern with 4 LEDs
+    10: board.GP18,  # Upper part of title "Homecoming" 43 LEDs
+    11: board.GP20,  # Lower part of title "Lantern Festival" 60 LEDs
     12: board.GP27,
     13: board.GP14
 }
@@ -50,12 +50,14 @@ def init_strip(port_num, num_pixels):
     strips[port_num].fill(BLACK)
     strips[port_num].show()
 
-# Initialize bag lights
+# Initialize bag lights with 4 LEDs each
 for port_num in range(1,9):
     init_strip(port_num, 4)
 
-init_strip(10, 10)
-init_strip(11, 10)
+#init_strip(10, 10) # for testing, just light 10 pixels
+init_strip(10, 43)  # The actual strand has 43 pixels
+#init_strip(11, 10)  # for testing, just light 10 pixels
+init_strip(11, 60)  # The actual strand has 43 pixels
 
 animations = []
 #for key in sorted(strips.keys()):
