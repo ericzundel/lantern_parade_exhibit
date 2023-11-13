@@ -18,7 +18,7 @@ from adafruit_led_animation.animation.sparklepulse import SparklePulse
 from adafruit_led_animation.animation.colorcycle import ColorCycle
 from adafruit_led_animation.animation.solid import Solid
 
-from adafruit_led_animation.color import RED, BLUE, GREEN, YELLOW, BLACK, PURPLE
+from adafruit_led_animation.color import RED, BLUE, GREEN, YELLOW, BLACK, PURPLE, ORANGE, PINK, CYAN
 import neopixel
 
 ports = {
@@ -45,30 +45,37 @@ pixel_pin = ports[1]
 strips = {}
 
 # Initialize the library used to control the neopixel strip
-def init_strip(port_num, num_pixels):
-    strips[port_num] = neopixel.NeoPixel(ports[port_num], num_pixels, brightness=1, auto_write=False)
+def init_strip(port_num, num_pixels, brightness):
+    strips[port_num] = neopixel.NeoPixel(ports[port_num], num_pixels, brightness=brightness, auto_write=False)
     strips[port_num].fill(BLACK)
     strips[port_num].show()
 
 # Initialize bag lights with 4 LEDs each
-for port_num in range(1,9):
-    init_strip(port_num, 4)
+for port_num in range(1,10):
+    init_strip(port_num, 4, .5)
+    print("Iniitalized port %d" %(port_num))
 
-#init_strip(10, 10) # for testing, just light 10 pixels
-init_strip(10, 43)  # The actual strand has 43 pixels
-#init_strip(11, 10)  # for testing, just light 10 pixels
-init_strip(11, 60)  # The actual strand has 43 pixels
+#init_strip(10, 10, 1.0) # f or testing, just light 10 pixels
+#init_strip(11, 10, 1.0) # for testing, just light 10 pixels
+
+init_strip(10, 43, 1.0)  # The actual strand has 43 pixels
+init_strip(11, 60, 1.0)  # The actual strand has 43 pixels
 
 animations = []
+colors = [ RED, GREEN, YELLOW, PURPLE, ORANGE, BLACK, PINK, BLUE, CYAN, PURPLE ]
 #for key in sorted(strips.keys()):
-for key in range(1,9):
+for key in range(1,10):
+    old_colors = colors
+    colors = old_colors[1:]
+    colors.append(old_colors[0])
     #animations.append(Blink(strips[key], speed=0.25, color=BLUE))
     #animations.append(Comet(strips[key], speed=0.1, color=RED, tail_length=2, bounce= True))
     #animations.append(Sparkle(strips[key], speed=.5, color=YELLOW, num_sparkles=1))
     #animations.append(Pulse(strips[key], speed=.1, color=YELLOW, period=5))
     #animations.append(SparklePulse(strips[key], speed=.1, color=GREEN, period=5))
-    #animations.append(ColorCycle(strips[key], speed=.1, colors=(RED, GREEN, BLUE, YELLOW, PURPLE)))
-    animations.append(Solid(strips[key], color=BLACK))
+    animations.append(ColorCycle(strips[key], speed=5, colors=tuple(colors)))
+    #animations.append(Solid(strips[key], color=BLACK))
+
 
 # This is similar to what the EA Makerspace sign does
 #animations.append(RainbowChase(strips[10], speed=.05, size=1, spacing=0))
